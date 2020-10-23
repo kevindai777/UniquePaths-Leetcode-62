@@ -1,0 +1,42 @@
+If you thought about this problem using recursion then this can be a follow up of the same recursive code as it has just been converted into an iterative approach
+
+so, first thing first , you need to set the conditions of the base case in the dp grid.
+but how?
+just make a dp grid of size (n+1,m+1).
+Now if you are in the last row ,you can only go right ,so no. of ways to reach the end from any cell in the last row would be 1. So we fill the Dp grid's last row with 1s.
+
+Silimarly if you are in the last column,then the no. of ways would again be 1 as you could only go down from there. So we fill the Dp grid's last column with 1s.
+
+so your dp grid looks like this
+x x x x 1
+x x x x 1
+x x x x 1
+x x x x 1
+1 1 1 1 1
+
+up until the mark 1(comment) this has been done in the code.
+
+now we just traverse the loop from back(in reverse order excluding the boundaries that we marked with 1) and at every cell we want to add the number of ways of its immediate right cell and immediate bottom cell.
+In this way ,we will fill the whole grid.
+At the end we just need to return the value at (0,0).
+
+following is the code:
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        int dp[m][n];
+        for(int i=0;i<n;i++){
+            dp[m-1][i]=1;
+        }
+        for(int i=0;i<m;i++){
+            dp[i][n-1]=1;
+        }  //mark1
+        for(int i=m-2;i>=0;i--){
+            for(int j=n-2;j>=0;j--){
+                dp[i][j]=dp[i][j+1]+dp[i+1][j];                
+            }
+        }
+        return dp[0][0];
+    }
+};
